@@ -15,7 +15,7 @@ The depth-first search algorithm of maze generation is frequently implemented us
 I have used A* algorithm to solve the maze. Unlike Dijkstra's algorithm A* searched the optimal path using heuristics which make it more efficiant as it does not visits each and every node of the graph.
 
 ### Maze Created :
-![Alt text](maze.png)
+![alt text](maze.PNG)
 
 ### Solved Maze :
-![Alt text](solved_maze.png)
+![alt text](solved_maze.PNG)
