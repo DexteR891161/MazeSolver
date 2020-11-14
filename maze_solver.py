@@ -2,7 +2,7 @@ import pygame as pg
 import random
 import math
 
-grid_size = 50
+grid_size = 20
 grid = [[0 for x in range(grid_size)] for x in range(grid_size)] 
 
 pg.init()
@@ -36,24 +36,25 @@ class node:
         self.bottom = True
         self.left = True
         self.neighbours = []
-        self.final_n = []
 
         self.gScore = math.inf
         self.fScore = math.inf
 
-    def addNeighbours(self):
+    def getNeighbours(self):
+        temp = []
         if self.i > 0:
-            self.neighbours.append(grid[self.i-1][self.j])
+            temp.append(grid[self.i-1][self.j])
         if self.j > 0:
-            self.neighbours.append(grid[self.i][self.j-1])
+            temp.append(grid[self.i][self.j-1])
         if self.i < grid_size-1:
-            self.neighbours.append(grid[self.i+1][self.j])
+            temp.append(grid[self.i+1][self.j])
         if self.j < grid_size-1:
-            self.neighbours.append(grid[self.i][self.j+1])
+            temp.append(grid[self.i][self.j+1])
+        return temp
 
     def get_unvisited(self):
         temp = []
-        for i in self.neighbours:
+        for i in self.getNeighbours():
             if not i.visited:
                 temp.append(i)
         return temp
@@ -90,7 +91,6 @@ end = grid[grid_size-1][grid_size-1]
 
 for i in range(grid_size):
     for j in range(grid_size):
-        grid[i][j].addNeighbours()
         grid[i][j].show((0, 0, 0))
 pg.display.update()
 
@@ -126,7 +126,7 @@ while not crashed:
             chosen = random.choice(avail_nodes)
             x_grad = current.i - chosen.i
             y_grad = current.j - chosen.j
-            current.final_n.append(chosen)
+            current.neighbours.append(chosen)
             if x_grad < 0:
                 current.right = False
                 chosen.left = False
@@ -162,7 +162,7 @@ while not crashed:
             found = True
         openSet.remove(current)
         closedSet.append(current)
-        for n in current.final_n:
+        for n in current.neighbours:
             # if n.wall:
             #     continue
             temp_gScore = current.gScore + 1        ##1 is the weight of the connecting edge
